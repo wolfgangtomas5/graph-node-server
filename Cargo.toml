@@ -31,7 +31,7 @@ async-graphql = { version = "7.0.11", features = ["chrono", "uuid"] }
 async-graphql-axum = "7.0.11"
 axum = "0.7.5"
 chrono = "0.4.38"
-clap = { version = "4.5.4", features = ["derive", "env"] }
+clap = { version = "4.5.13", features = ["derive", "env"] }
 derivative = "2.2.0"
 diesel = { version = "2.2.4", features = ["postgres", "serde_json", "numeric", "r2d2", "chrono", "uuid", "i-implement-a-third-party-backend-and-opt-into-breaking-changes"] }
 diesel-derive-enum = { version = "2.1.0", features = ["postgres"] }
