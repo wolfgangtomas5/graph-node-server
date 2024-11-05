@@ -1177,6 +1177,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "derive_more"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4a9b99b9cbbe49445b21764dc0625032a89b145a2642e67603e1c936f5458d05"
+dependencies = [
+ "derive_more-impl",
+]
+
+[[package]]
+name = "derive_more-impl"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cb7330aeadfbe296029522e6c40f315320aba36fc43a5b3632f3795348f3bd22"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.69",
+]
+
+[[package]]
 name = "diesel"
 version = "2.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2147,7 +2167,7 @@ dependencies = [
  "blake3 1.5.1",
  "chrono",
  "clap",
- "derive_more",
+ "derive_more 1.0.0",
  "diesel",
  "diesel-derive-enum",
  "diesel-dynamic-schema",
@@ -6274,7 +6294,7 @@ dependencies = [
  "arrayvec 0.7.4",
  "base64 0.13.1",
  "bytes",
- "derive_more",
+ "derive_more 0.99.18",
  "ethabi",
  "ethereum-types",
  "futures 0.3.30",
