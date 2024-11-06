@@ -15,12 +15,24 @@ jobs:
         image: ipfs/go-ipfs:v0.10.0
         ports:
           - 5001:5001
+        env:
+          postgres_host: postgres
+          postgres_user: graph-node
+          postgres_pass: let-me-in
+          postgres_db: graph-node
+          ipfs: 'ipfs:5001'
+          ethereum: 'mainnet:https://mainnet.infura.io/v3/bd6aa84b84904cfe9fce24aaafa89f56'
+          GRAPH_LOG: info
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: graph_node_test
+          POSTGRES_USER: graph-node
+          POSTGRES_PASSWORD: let-me-in
+          POSTGRES_DB: graph-node
+          PGDATA: "/var/lib/postgresql/data"
           POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+        volumes:
+          - ./data/postgres:/var/lib/postgresql/data:Z
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
