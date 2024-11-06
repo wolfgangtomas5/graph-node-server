@@ -6,7 +6,7 @@ env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: full
   THEGRAPH_STORE_POSTGRES_DIESEL_URL: "postgresql://graph-node:let-me-in@localhost:5432/graph-node"
-  IPFS_URL: 'http://localhost:5001'
+  IPFS_URL: 'http://ipfs:5001'  # Updated to use the Docker service name for IPFS
 
 jobs:
   publish-graph-node-image:
@@ -35,7 +35,7 @@ jobs:
 
       - name: Wait for services to be ready
         run: |
-          until curl -s $IPFS_URL/api/v0/version && pg_isready -h localhost -p 5432; do
+          until curl -s http://localhost:5001/api/v0/version && pg_isready -h localhost -p 5432; do
             echo "Waiting for IPFS and Postgres..."
             sleep 5
           done
