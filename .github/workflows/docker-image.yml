@@ -11,30 +11,23 @@ jobs:
   publish-graph-node-image:
     runs-on: ubuntu-latest
     services:
-      graph-node:
-        image: graphprotocol/graph-node
-        ports:
-          - '8000:8000'
-          - '8001:8001'
-          - '8020:8020'
-          - '8030:8030'
-          - '8040:8040'
-
       ipfs:
-        image: ipfs/kubo:v0.17.0
+        image: ipfs/go-ipfs:v0.10.0
         ports:
-          - '5001:5001'
-        volumes:
-          - ./data/ipfs:/data/ipfs:Z
-
+          - 5001:5001
       postgres:
         image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: graph_node_test
+          POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
-          - '5432:5432'
-        # The command is removed because it's unsupported here.
-        # Set these configurations within the PostgreSQL Dockerfile or initialize manually.
-        volumes:
-          - ./data/postgres:/var/lib/postgresql/data:Z
+          - 5432:5432
 
     steps:
       - uses: actions/checkout@v2
