@@ -19,11 +19,6 @@ jobs:
           - '8020:8020'
           - '8030:8030'
           - '8040:8040'
-        depends_on:
-          - ipfs
-          - postgres
-        extra_hosts:
-          - host.docker.internal:host-gateway
         environment:
           postgres_host: postgres
           postgres_user: graph-node
