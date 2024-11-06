@@ -16,10 +16,6 @@ jobs:
         ports:
           - 5001:5001
         env:
-          postgres_host: postgres
-          postgres_user: graph-node
-          postgres_pass: let-me-in
-          postgres_db: graph-node
           ipfs: 'ipfs:5001'
           ethereum: 'mainnet:https://mainnet.infura.io/v3/bd6aa84b84904cfe9fce24aaafa89f56'
           GRAPH_LOG: info
