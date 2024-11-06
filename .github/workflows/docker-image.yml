@@ -19,14 +19,6 @@ jobs:
           - '8020:8020'
           - '8030:8030'
           - '8040:8040'
-        environment:
-          postgres_host: postgres
-          postgres_user: graph-node
-          postgres_pass: let-me-in
-          postgres_db: graph-node
-          ipfs: 'ipfs:5001'
-          ethereum: 'mainnet:https://mainnet.infura.io/v3/bd6aa84b84904cfe9fce24aaafa89f56'
-          GRAPH_LOG: info
 
       ipfs:
         image: ipfs/kubo:v0.17.0
@@ -39,18 +31,8 @@ jobs:
         image: postgres
         ports:
           - '5432:5432'
-        command:
-          [
-            "postgres",
-            "-cshared_preload_libraries=pg_stat_statements",
-            "-cmax_connections=200"
-          ]
-        environment:
-          POSTGRES_USER: graph-node
-          POSTGRES_PASSWORD: let-me-in
-          POSTGRES_DB: graph-node
-          PGDATA: "/var/lib/postgresql/data"
-          POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+        # The command is removed because it's unsupported here.
+        # Set these configurations within the PostgreSQL Dockerfile or initialize manually.
         volumes:
           - ./data/postgres:/var/lib/postgresql/data:Z
 
