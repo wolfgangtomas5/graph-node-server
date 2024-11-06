@@ -19,7 +19,7 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      ethereum: 'mainnet:https://api.lux.network'
+      ethereum: 'mainnet:https://mainnet.infura.io/v3/bd6aa84b84904cfe9fce24aaafa89f56'
       GRAPH_LOG: info
   ipfs:
     image: ipfs/kubo:v0.17.0
