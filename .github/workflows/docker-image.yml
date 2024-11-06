@@ -6,7 +6,7 @@ env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: full
   THEGRAPH_STORE_POSTGRES_DIESEL_URL: "postgresql://graph-node:let-me-in@localhost:5432/graph-node"
-  IPFS_URL: 'http://ipfs:5001'  # Updated to use the Docker service name for IPFS
+  IPFS_URL: 'http://localhost:5001'
 
 jobs:
   publish-graph-node-image:
@@ -32,10 +32,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      # Debugging step to check if IPFS_URL is set correctly
-      - name: Debug IPFS URL
-        run: echo "IPFS_URL is set to $IPFS_URL"
 
       - name: Wait for services to be ready
         run: |
