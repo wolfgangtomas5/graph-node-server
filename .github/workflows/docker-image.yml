@@ -5,26 +5,23 @@ on: [push]
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: full
-  THEGRAPH_STORE_POSTGRES_DIESEL_URL: "postgresql://postgres:postgres@localhost:5432/graph_node_test"
-  
+  THEGRAPH_STORE_POSTGRES_DIESEL_URL: "postgresql://graph-node:let-me-in@localhost:5432/graph-node"
+  IPFS_URL: 'http://localhost:5001'
+
 jobs:
   publish-graph-node-image:
     runs-on: ubuntu-latest
     services:
       ipfs:
-        image: ipfs/go-ipfs:v0.10.0
+        image: ipfs/kubo:v0.17.0
         ports:
           - 5001:5001
-        env:
-          ipfs: 'ipfs:5001'
-          ethereum: 'mainnet:https://mainnet.infura.io/v3/bd6aa84b84904cfe9fce24aaafa89f56'
-          GRAPH_LOG: info
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: graph_node_test
-          POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+          POSTGRES_USER: graph-node
+          POSTGRES_PASSWORD: let-me-in
+          POSTGRES_DB: graph-node
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,6 +33,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Wait for services to be ready
+        run: |
+          until curl -s http://localhost:5001/api/v0/version && pg_isready -h localhost -p 5432; do
+            echo "Waiting for IPFS and Postgres..."
+            sleep 5
+          done
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -45,6 +49,7 @@ jobs:
 
       - name: Build the graph node Docker image
         run: |
-          docker build . --file docker/Dockerfile --tag ghcr.io/wolfgangtomas5/graph-node-gcr-demo:latest
+          docker build . --file docker/Dockerfile --tag ghcr.io/wolfgangtomas5/graph-node-gcr-demo:latest \
+            --build-arg IPFS_URL=${{ env.IPFS_URL }}
           docker run ghcr.io/wolfgangtomas5/graph-node-gcr-demo:latest
           docker push ghcr.io/wolfgangtomas5/graph-node-gcr-demo:latest
